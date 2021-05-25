@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service1-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: service1
+  template:
+    metadata:
+      labels:
+        component: service1
+    spec:
+      containers:
+        - name: service1
+          image: antonijaa/service1:v_0
+          ports:
+            - containerPort: 8080

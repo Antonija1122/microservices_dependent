@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service2-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: service2
+  template:
+    metadata:
+      labels:
+        component: service2
+    spec:
+      containers:
+        - name: service1
+          image: antonijaa/service2:v_2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVIS1_HOST
+              value: service1-cluster-ip-service
+            - name: SERVIS1_PORT
+              value: '5001'
