@@ -46,8 +46,13 @@ after_success:
   - docker push antonijaa/service2:test
   
 before_deploy:
+  - kubectl apply -f ./k8s/service1-cluster-service-ip.yaml
+  - kubectl apply -f ./k8s/service1-deployment.yaml
+  - kubectl apply -f ./k8s/service2-cluster-service-ip.yaml
+  - kubectl apply -f ./k8s/service2-deployment.yaml
   - echo "skipping smoke test"
   - echo "skipping e2e test"
+  - minikube ip
   
 deploy:
   provider: script
