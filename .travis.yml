@@ -44,6 +44,7 @@ script:
 after_success:
   - docker push antonijaa/service1:test
   - docker push antonijaa/service2:test
+  - pwd
   
 before_deploy:
   - kubectl apply -f ./k8s/service1-cluster-service-ip.yaml
