@@ -37,6 +37,7 @@ jobs:
         - minikube update-context --profile=minikube
         - "sudo chown -R travis: /home/travis/.minikube/"
         - eval "$(minikube docker-env --profile=minikube)" && export DOCKER_CLI='docker'
+        - minikube addons enable ingress
           #- bash ./pipeline_scripts/before_install.sh
         - bash ./pipeline_scripts/deploy_to_staging.sh
         - bash ./pipeline_scripts/smoke_test.sh
