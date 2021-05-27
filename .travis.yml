@@ -24,9 +24,9 @@ jobs:
       script: bash ./pipeline_scripts/push_artifact.sh
     - stage: deploy_to_staging
       script:
-       # Download kubectl, which is a requirement for using minikube.
+        # Download kubectl, which is a requirement for using minikube.
         - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.20.1/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
-# Download minikube.
+        # Download minikube.
         - curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.16.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
         - mkdir -p $HOME/.kube $HOME/.minikube
         - touch $KUBECONFIG
@@ -42,9 +42,9 @@ jobs:
       if: branch = master 
     - stage: deploy_to_production
       script: 
-       # Download kubectl, which is a requirement for using minikube.
+        # Download kubectl, which is a requirement for using minikube.
         - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.20.1/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
-# Download minikube.
+        # Download minikube.
         - curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.16.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
         - mkdir -p $HOME/.kube $HOME/.minikube
         - touch $KUBECONFIG
@@ -53,11 +53,5 @@ jobs:
         - minikube update-context --profile=minikube
         - "sudo chown -R travis: /home/travis/.minikube/"
         - eval "$(minikube docker-env --profile=minikube)" && export DOCKER_CLI='docker'
-          #- bash ./pipeline_scripts/before_install.sh
-        - bash ./pipeline_scripts/deploy_to_staging.sh
-        - bash ./pipeline_scripts/smoke_test.sh
-        - echo "skiping e2e testing"
-
-          #- bash ./pipeline_scripts/before_install.sh
         - bash ./pipeline_scripts/deploy_to_production.sh
       if: branch = master 
