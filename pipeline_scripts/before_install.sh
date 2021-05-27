@@ -5,6 +5,9 @@ curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.20
 curl -Lo minikube https://storage.googleapis.com/minikube/releases/v1.16.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
 mkdir -p $HOME/.kube $HOME/.minikube
 touch $KUBECONFIG
+pwd
+echo $HOME
+echo $KUBECONFIG
 sudo apt-get install -y conntrack
 sudo minikube start --profile=minikube --vm-driver=none --kubernetes-version=v1.20.1
 minikube update-context --profile=minikube
