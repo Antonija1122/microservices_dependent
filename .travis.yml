@@ -13,33 +13,23 @@ env:
     
 jobs:
   include:
-    - stage: before_install
-      script: bash ./pipeline_scripts/before_install.sh
-    - stage: build_image
+    - stage: build_and_test
       script: 
         - docker build -t antonijaa/service1:test -f ./service1/Dockerfile ./service1
         - docker build -t antonijaa/service2:test -f ./service2/Dockerfile ./service2
-    - stage: unit_tests
-      script: echo "skiping unit testing"
-    - stage: integration_tests
-      script: echo "skiping integration testing"
+        - echo "skiping unit testing"
+        - echo "skiping integration testing"
     - stage: push_arifact
       script: bash ./pipeline_scripts/push_artifact.sh
     - stage: deploy_to_staging
-      script: skip
-      deploy: 
-        provider: script
-        script: bash ./pipeline_scripts/deploy_to_staging.sh
-        on:
-          branch: master          
-    - stage: smoke_test
-      script: bash ./pipeline_scripts/smoke_test.sh
-    - stage: e2e_tests
-      script: echo "skiping e2e testing"
+      script: 
+        - bash ./pipeline_scripts/before_install.sh
+        - bash ./pipeline_scripts/deploy_to_staging.sh
+        - bash ./pipeline_scripts/smoke_test.sh
+        - echo "skiping e2e testing"
+      if: branch = master 
     - stage: deploy_to_production
-      script: skip
-      deploy: 
-        provider: script
-        script: bash ./pipeline_scripts/deploy_to_production.sh
-        on:
-          branch: master
+      script: 
+        - bash ./pipeline_scripts/before_install.sh
+        - bash ./pipeline_scripts/deploy_to_production.sh
+      if: branch = master 
