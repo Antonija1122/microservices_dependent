@@ -26,37 +26,29 @@ before_install:
   - eval "$(minikube docker-env --profile=minikube)" && export DOCKER_CLI='docker'
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-
-before_script:
-  - docker build -t antonijaa/service1:test -f ./service1/Dockerfile ./service1
-  - docker build -t antonijaa/service2:test -f ./service2/Dockerfile ./service2
-
-
-script:
-###unit testing
-#https://www.udemy.com/course/pytest-python-3-unit-testing-tutorial-for-beginners/?utm_source=adwords&utm_medium=udemyads&utm_campaign=LongTail-New_la.EN_cc.ROWMTA-B&utm_content=deal4584&utm_term=_._ag_98771201205_._ad_521216183434_._kw__._de_c_._dm__._pl__._ti_dsa-1007766171312_._li_1007612_._pd__._&matchtype=b&gclid=CjwKCAjw47eFBhA9EiwAy8kzNI12bEwUxEm7RDcWdE-fhB7foYyAr54WrA2xijPok4cn9zQZll4SBRoCupcQAvD_BwE
-#tests should be in directory /usr/app/test -in container 
-#  - docker run -e CI=true antonijaa/service1:test python test
-#  - docker run -e CI=true antonijaa/service2:test python test
-  - echo "skipping unit tests"
-  - echo "skipping integration tests"
-
-after_success:
-  - docker push antonijaa/service1:test
-  - docker push antonijaa/service2:test
-  - pwd
-  
-before_deploy:
-  - kubectl apply -f ./k8s/service1-cluster-service-ip.yaml
-  - kubectl apply -f ./k8s/service1-deployment.yaml
-  - kubectl apply -f ./k8s/service2-cluster-service-ip.yaml
-  - kubectl apply -f ./k8s/service2-deployment.yaml
-  - echo "skipping smoke test"
-  - echo "skipping e2e test"
-  - minikube ip
-  
-deploy:
-  provider: script
-  script: bash ./deploy.sh
-  on:
-    branch: master
+jobs:
+  include:
+    - stage: build_image
+      script: 
+        - docker build -t antonijaa/service1:test -f ./service1/Dockerfile ./service1
+        - docker build -t antonijaa/service2:test -f ./service2/Dockerfile ./service2
+    - stage: unit_tests
+      script: echo "skiping unit testing"
+    - stage: integration_tests
+      script: echo "skiping integration testing"
+    - stage: push_arifact
+      script: push_artifact.sh
+    - stage: deploy_to_staging
+      script: skip
+      deploy: 
+        provider: script
+        script: bash ./deploy_to_staging.sh
+        on:
+          branch: master
+    - stage: deploy_to_production
+      script: skip
+      deploy: 
+        provider: script
+        script: bash ./deploy_to_production.sh
+        on:
+          branch: master
