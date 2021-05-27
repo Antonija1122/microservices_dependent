@@ -13,11 +13,12 @@ env:
 
 before_install:
   - chmod +x ./pipeline_scripts/deploy_to_production.sh
-
+  - chmod +x  ./pipeline_scripts/before_install.sh
 jobs:
   include:
     - stage: build_and_test
       script:
+        - ./pipeline_scripts/before_install.sh
         - ./pipeline_scripts/deploy_to_production.sh
         - echo "skiping unit testing"
         - echo "skiping integration testing"
