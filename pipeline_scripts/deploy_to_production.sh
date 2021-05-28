@@ -16,5 +16,5 @@ kubectl apply -f ./k8s/ingress/ingress-service-project2-prod.yaml  --namespace=p
 #impertive set image
 kubectl set image deployments/service1-deployment service1=antonijaa/service1:$TAG --namespace=project1-prod
 kubectl set image deployments/service1-deployment service1=antonijaa/service1:$TAG --namespace=project2-prod
-kubectl set image deployments/service2-deployment service1=antonijaa/service2:$TAG --namespace=project1-prod
-kubectl set image deployments/service2-deployment service1=antonijaa/service2:$TAG --namespace=project2-prod
+kubectl set image deployments/service2-deployment service2=antonijaa/service2:$TAG --namespace=project1-prod
+kubectl set image deployments/service2-deployment service2=antonijaa/service2:$TAG --namespace=project2-prod
