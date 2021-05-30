@@ -8,6 +8,8 @@ bash ./pipeline_scripts/push_artifact.sh
 
 bash ./pipeline_scripts/deploy_to_staging.sh
 
+sleep 60
+
 bash ./pipeline_scripts/smoke_test.sh
 
 bash ./pipeline_scripts/deploy_to_production.sh
