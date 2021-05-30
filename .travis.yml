@@ -44,7 +44,7 @@ jobs:
         - echo "skiping e2e testing"
         - minikube ip
       if: branch = master
-    - stage: smoke_test
+    - stage: smoke_e2e_test
       script:
         #- bash ./pipeline_scripts/push_artifact.sh
          - echo skipping smoke test in travis ci -> do it localy
