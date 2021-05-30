@@ -13,7 +13,7 @@ sleep 60
 
 bash ./pipeline_scripts/smoke_test.sh
 
-bash ./pipeline_scripts/deploy_to_production.sh
-
 echo "skiping e2e testing"
+
+bash ./pipeline_scripts/deploy_to_production.sh
 
