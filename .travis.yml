@@ -39,7 +39,6 @@ jobs:
         - eval "$(minikube docker-env --profile=minikube)" && export DOCKER_CLI='docker'
           #- minikube addons enable ingress
         - bash ./pipeline_scripts/deploy_to_staging.sh
-      if: branch = master
     - stage: smoke_e2e_test
       script:
         #- bash ./pipeline_scripts/push_artifact.sh
