@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: service2
-          image: antonijaa/service2:v_2
+          image: antonijaa/service2
           ports:
             - containerPort: 8080
           env:
